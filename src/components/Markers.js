@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import gmapsApi from '../apis/google-maps/api';
+import { createMapScriptTag } from '../utils/utils';
 
 
 class Markers extends Component {
@@ -17,19 +18,10 @@ class Markers extends Component {
     }
 
     componentDidMount() {
-        const URL = 'https://maps.googleapis.com/maps/api/js';
-        const KEY = 'AIzaSyBAjpyia7TRlb8gj-lLOz99Nw6SNxzXv-E';
-        const VERSION = '3';
-
+        const key = 'AIzaSyBAjpyia7TRlb8gj-lLOz99Nw6SNxzXv-E';
+        
         if (!window.google) {
-            const mapScriptTag = document.createElement('script');
-            mapScriptTag.type = 'text/javascript';
-            mapScriptTag.src = `${URL}?key=${KEY}&v=${VERSION}`;
-            mapScriptTag.async = true;
-            mapScriptTag.defer = true;
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(mapScriptTag, firstScriptTag);
-
+            const mapScriptTag = createMapScriptTag(key);
             mapScriptTag.addEventListener('load', () => {
                 this.onScriptLoad()
             })
