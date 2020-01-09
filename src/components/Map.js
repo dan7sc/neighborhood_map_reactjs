@@ -1,43 +1,28 @@
 import React, { Component } from 'react';
+import googleMapsApi from '../apis/google-maps/api';
+import Markers from './Markers';
+
 
 class Map extends Component {
     constructor(props) {
         super(props);
-        this.onMapScriptLoad = this.onMapScriptLoad.bind(this)
+        this.loadMap = this.loadMap.bind(this);
     }
 
-    onMapScriptLoad() {
-        const map = new window.google.maps.Map(
-            document.getElementById(this.props.id),
-            this.props.mapOptions);
+    loadMap() {
+        const { id, mapOptions } = this.props;
+        const map = googleMapsApi.createMap(id, mapOptions);
+
         return map;
-    }
-
-    componentDidMount() {
-        const URL = 'https://maps.googleapis.com/maps/api/js';
-        const KEY = 'AIzaSyBAjpyia7TRlb8gj-lLOz99Nw6SNxzXv-E';
-        const VERSION = '3';
-
-        if (!window.google) {
-            const mapScriptTag = document.createElement('script');
-            mapScriptTag.type = 'text/javascript';
-            mapScriptTag.src = `${URL}?key=${KEY}&v=${VERSION}`;
-            mapScriptTag.async = true;
-            mapScriptTag.defer = true;
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(mapScriptTag, firstScriptTag);
-
-            mapScriptTag.addEventListener('load', () => {
-                this.onMapScriptLoad()
-            })
-        } else {
-            this.onMapScriptLoad()
-        }
     }
 
     render() {
         return (
-            <div id={this.props.id}></div>
+            <Markers
+              id={this.props.id}
+              places={this.props.places}
+              map={() => this.loadMap()}
+              options={this.props.mapOptions}/>
         );
     }
 }

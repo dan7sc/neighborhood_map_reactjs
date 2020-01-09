@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Map from './Map';
+import places from '../models/data';
 
 class Main extends Component {
     render() {
@@ -17,7 +18,7 @@ class Main extends Component {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-sm-12 col-md-12">
-                      <Map id='map' mapOptions={mapOptions} />
+                      <Map id='map' mapOptions={mapOptions} places={places} />
                     </div>
                   </div>
                 </div>
