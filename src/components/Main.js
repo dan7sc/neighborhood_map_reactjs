@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Map from './Map';
+import PlacesList from './PlacesList';
 import places from '../models/data';
 
 class Main extends Component {
@@ -17,7 +18,10 @@ class Main extends Component {
               <main>
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col-sm-12 col-md-12">
+                    <div className="col-md-3">
+                      <PlacesList places={places} />
+                    </div>
+                    <div className="col-md-9">
                       <Map id='map' mapOptions={mapOptions} places={places} />
                     </div>
                   </div>
