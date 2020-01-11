@@ -6,6 +6,22 @@ import PlacesList from './PlacesList';
 import places from '../models/data';
 
 class Main extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            filter: '',
+            // filteredPlaces: []
+        };
+        this.handleInput = this.handleInput.bind(this);
+        // this.filterPlaces = this.filterPlaces.bind(this);
+    }
+
+    handleInput(e) {
+        this.setState({
+            filter: e.target.value
+        });
+    }
+
     render() {
         const mapOptions = {
             center: { lat: 40.7413549, lng: -73.9980244 },
@@ -19,10 +35,13 @@ class Main extends Component {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-3">
-                      <PlacesList places={places} />
+                      <div>
+                        <input onChange={this.handleInput} type="text" placeholder="Search" size="30" />
+                        <PlacesList places={places} filter={this.state.filter} />
+                      </div>
                     </div>
                     <div className="col-md-9">
-                      <Map id='map' mapOptions={mapOptions} places={places} />
+                      <Map id='map' mapOptions={mapOptions} places={places} filter={this.state.filter} />
                     </div>
                   </div>
                 </div>

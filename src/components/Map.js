@@ -21,6 +21,7 @@ class Map extends Component {
             <Markers
               id={this.props.id}
               places={this.props.places}
+              filter={this.props.filter}
               map={() => this.loadMap()}
               options={this.props.mapOptions}/>
         );

@@ -54,4 +54,23 @@ api.showMarkers = function(map, markers) {
     map.fitBounds(bounds);
 }
 
+// This function filters locations by name in the list
+// and filters markers in the map
+api.filterMarkers = function(items, filter) {
+    const markers = items;
+    const filteredMarkers = [];
+    for(let i = 0; i < items.length; i++) {
+      if(items[i].title.toLowerCase().includes(filter.toLowerCase())) {
+        filteredMarkers.push(items[i]);
+        markers[i].setVisible(true);
+      }
+      else {
+        markers[i].setVisible(false);
+      }
+    }
+    // return a list of markers filtered by name
+    return filteredMarkers;
+}
+
+
 export default api;
