@@ -7,14 +7,22 @@ class Markers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            markers: []
+            markers: [],
+            infowindow: null
         };
         this.onScriptLoad = this.onScriptLoad.bind(this);
     }
 
     onScriptLoad() {
         const map = this.props.map();
+        const infowindow = gmapsApi.createInfoWindow();
         const markers = gmapsApi.createMarkers(this.props.places);
+        markers.forEach(marker => {
+            marker.addListener('click', function() {
+                gmapsApi.animateMarker(this);
+                gmapsApi.populateInfoWindow(map, infowindow, this);
+            });
+        });
         this.setState({ markers });
         gmapsApi.showMarkers(map, markers);
     }

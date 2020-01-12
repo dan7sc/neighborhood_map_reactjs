@@ -18,13 +18,15 @@ api.createMarkers = function createMarkers(items) {    // items to use as marker
     const markers = [];
     let position;
     let title;
+    let id;
     for (let i = 0; i < items.length; i++) {
         // Get the position from the array.
         position = items[i].location;
         title = items[i].title;
+        id = i;
         console.log(title);
         // Create a marker per location, and put into markers array.
-        const marker = api.createMarker(position, title, i);
+        const marker = api.createMarker(position, title, id);
         // Push the marker to our array of markers.
         markers.push(marker);
     }
@@ -56,7 +58,7 @@ api.showMarkers = function(map, markers) {
 
 // This function filters locations by name in the list
 // and filters markers in the map
-api.filterMarkers = function(items, filter) {
+api.filterMarkers = function(items, filter, infowindow) {
     const markers = items;
     const filteredMarkers = [];
     for(let i = 0; i < items.length; i++) {
@@ -72,5 +74,54 @@ api.filterMarkers = function(items, filter) {
     return filteredMarkers;
 }
 
+// This function create a infowindow
+api.createInfoWindow = function() {
+    const infowindow = new window.google.maps.InfoWindow();
+
+    return infowindow;
+}
+
+// This function populates the infowindow when the marker is clicked
+api.populateInfoWindow = function(map, infowindow, marker) {
+  // Check to make sure the infowindow is not already opened on this marker
+  if (infowindow.marker !== marker) {
+    infowindow.marker = marker;
+    infowindow.setContent('<div>' + marker.title + '</div>');
+    infowindow.open(map, marker);
+    // Make sure the marker property is cleared if the infowindow is closed
+    infowindow.addListener('closeclick', function() {
+      infowindow.marker = null;
+    });
+  }
+}
+
+// This function shows the infowindow through the list
+api.showInfoWindow = function(infowindow, markers, id, event) {
+  if(event.type === 'click') {
+    api.animateMarker(markers[id]);
+    api.populateInfoWindow(markers[id], infowindow);
+  }
+}
+
+// This function closes the infowindow
+api.closeInfoWindow = function(infowindow) {
+  if(infowindow) {
+    infowindow.close();
+  }
+}
+
+// This function animates the marker
+api.animateMarker = function(marker) {
+  if (marker.getAnimation() != null) {
+    marker.setAnimation(null);
+  }
+  else {
+    marker.setAnimation(window.google.maps.Animation.BOUNCE);
+    // Marker bounces during two milliseconds
+    setTimeout(() => {
+      marker.setAnimation(null);
+    }, 2000);
+  }
+}
 
 export default api;

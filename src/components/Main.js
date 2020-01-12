@@ -10,10 +10,8 @@ class Main extends Component {
         super(props);
         this.state = {
             filter: '',
-            // filteredPlaces: []
         };
         this.handleInput = this.handleInput.bind(this);
-        // this.filterPlaces = this.filterPlaces.bind(this);
     }
 
     handleInput(e) {
