@@ -22,6 +22,10 @@ class Map extends Component {
               id={this.props.id}
               places={this.props.places}
               filter={this.props.filter}
+              markers={this.props.markers}
+              filteredMarkers={this.props.filteredMarkers}
+              onFilterMarkers={this.props.onFilterMarkers}
+              onHandleMarkers={this.props.onHandleMarkers}
               map={() => this.loadMap()}
               options={this.props.mapOptions}/>
         );

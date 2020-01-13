@@ -7,10 +7,11 @@ class Markers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            markers: [],
             infowindow: null
         };
         this.onScriptLoad = this.onScriptLoad.bind(this);
+        this.handleMarkers = this.handleMarkers.bind(this);
+        this.filterMarkers = this.filterMarkers.bind(this);
     }
 
     onScriptLoad() {
@@ -23,8 +24,16 @@ class Markers extends Component {
                 gmapsApi.populateInfoWindow(map, infowindow, this);
             });
         });
-        this.setState({ markers });
+        this.handleMarkers(markers);
         gmapsApi.showMarkers(map, markers);
+    }
+
+    handleMarkers(markers) {
+        this.props.onHandleMarkers(markers);
+    }
+
+    filterMarkers(markers, filter) {
+        this.props.onFilterMarkers(markers, filter);
     }
 
     componentDidMount() {
@@ -39,10 +48,12 @@ class Markers extends Component {
         }
     }
 
-    componentDidUpdate() {
-        const markers = this.state.markers;
+    componentDidUpdate(prevProps) {
+        const markers = this.props.markers;
         const filter = this.props.filter;
-        gmapsApi.filterMarkers(markers, filter);
+        if (prevProps.filter !== filter) {
+            this.filterMarkers(markers, filter);
+        }
     }
 
     render() {
