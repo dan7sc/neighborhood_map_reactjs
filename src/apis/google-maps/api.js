@@ -14,7 +14,7 @@ api.initializeMap = function initializeMap(items, opts) {
     return [map, markers];
 }
 
-api.createMarkers = function createMarkers(items) {    // items to use as markers
+api.createMarkers = function createMarkers(map, infowindow, items) {    // items to use as markers
     const markers = [];
     let position;
     let title;
@@ -62,13 +62,13 @@ api.filterMarkers = function(items, filter, infowindow) {
     const markers = items;
     const filteredMarkers = [];
     for(let i = 0; i < items.length; i++) {
-      if(items[i].title.toLowerCase().includes(filter.toLowerCase())) {
-        filteredMarkers.push(items[i]);
-        markers[i].setVisible(true);
-      }
-      else {
-        markers[i].setVisible(false);
-      }
+        if(items[i].title.toLowerCase().includes(filter.toLowerCase())) {
+            filteredMarkers.push(items[i]);
+            markers[i].setVisible(true);
+        }
+        else {
+            markers[i].setVisible(false);
+        }
     }
     // return a list of markers filtered by name
     return filteredMarkers;
@@ -96,12 +96,10 @@ api.populateInfoWindow = function(map, infowindow, marker) {
 }
 
 // This function shows the infowindow through the list
-api.showInfoWindow = function(infowindow, markers, id, event) {
-  if(event.type === 'click') {
-    api.animateMarker(markers[id]);
-    api.populateInfoWindow(markers[id], infowindow);
-  }
-}
+api.showInfoWindow = function(map, infowindow, marker) {
+    api.animateMarker(marker);
+    api.populateInfoWindow(map, infowindow, marker);
+ }
 
 // This function closes the infowindow
 api.closeInfoWindow = function(infowindow) {

@@ -6,7 +6,6 @@ import PlacesList from './PlacesList';
 import places from '../models/data';
 import gmapsApi from '../apis/google-maps/api';
 
-
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -14,10 +13,15 @@ class Main extends Component {
             filter: '',
             filteredMarkers: [],
             filteredPlaces: [],
-            markers: []
+            markers: [],
+            infowindow: null,
+            map: null
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleMarkers = this.handleMarkers.bind(this);
+        this.handleInfowindow = this.handleInfowindow.bind(this);
+        this.handleMap = this.handleMap.bind(this);
+        this.handleShowInfoWindow = this.handleShowInfoWindow.bind(this);
         this.handleFilterMarkers = this.handleFilterMarkers.bind(this);
         this.handleFilterPlaces = this.handleFilterPlaces.bind(this);
     }
@@ -32,6 +36,18 @@ class Main extends Component {
         this.setState({ markers });
     }
 
+    handleInfowindow(infowindow) {
+        this.setState({ infowindow });
+    }
+
+    handleMap(map) {
+        this.setState({ map });
+    }
+
+    handleShowInfoWindow(map, infowindow, marker) {
+        gmapsApi.showInfoWindow(map, infowindow, marker);
+    }
+    
     handleFilterMarkers(markers, filter) {
         const filteredMarkers = gmapsApi.filterMarkers(markers, filter);
         this.setState({ filteredMarkers });
@@ -66,6 +82,12 @@ class Main extends Component {
                         <PlacesList
                           places={places}
                           filter={this.state.filter}
+                          filteredMarkers={this.state.filteredMarkers}
+                          map={this.state.map}
+                          infowindow={this.state.infowindow}
+                          markers={this.state.markers}
+                          onShowInfoWindow={this.handleShowInfoWindow}
+                          onFilterMarkers={this.handleFilterMarkers}
                           filteredPlaces={this.state.filteredPlaces}
                           onFilterPlaces={this.handleFilterPlaces} />
                       </div>
@@ -75,6 +97,10 @@ class Main extends Component {
                         id='map'
                         mapOptions={mapOptions}
                         places={places}
+                        infowindow={this.state.infowindow}
+                        onHandleInfowindow={this.handleInfowindow}
+                        map={this.state.map}
+                        onHandleMap={this.handleMap}
                         markers={this.state.markers}
                         filter={this.state.filter}
                         filteredMarkers={this.state.filteredMarkers}

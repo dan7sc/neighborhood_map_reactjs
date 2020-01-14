@@ -6,18 +6,23 @@ import { createMapScriptTag } from '../utils/utils';
 class Markers extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            infowindow: null
-        };
         this.onScriptLoad = this.onScriptLoad.bind(this);
         this.handleMarkers = this.handleMarkers.bind(this);
+        this.handleInfowindow = this.handleInfowindow.bind(this);
         this.filterMarkers = this.filterMarkers.bind(this);
+        this.loadMap = this.loadMap.bind(this);
     }
 
+    loadMap() {
+        const map = this.props.onLoadMap();
+
+        return map;
+    }
     onScriptLoad() {
-        const map = this.props.map();
+        const map = this.loadMap();
         const infowindow = gmapsApi.createInfoWindow();
-        const markers = gmapsApi.createMarkers(this.props.places);
+        this.handleInfowindow(infowindow);
+        const markers = gmapsApi.createMarkers(map, infowindow, this.props.places);
         markers.forEach(marker => {
             marker.addListener('click', function() {
                 gmapsApi.animateMarker(this);
@@ -26,6 +31,10 @@ class Markers extends Component {
         });
         this.handleMarkers(markers);
         gmapsApi.showMarkers(map, markers);
+    }
+
+    handleInfowindow(infowindow) {
+        this.props.onHandleInfowindow(infowindow);
     }
 
     handleMarkers(markers) {
@@ -49,13 +58,13 @@ class Markers extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const markers = this.props.markers;
-        const filter = this.props.filter;
-        if (prevProps.filter !== filter) {
+        const { markers, filter } = { ...this.props };
+        const prevFilter = prevProps.filter;
+        if (prevFilter !== filter) {
             this.filterMarkers(markers, filter);
         }
     }
-
+    
     render() {
         return (
             <div id={this.props.id} />
