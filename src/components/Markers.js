@@ -9,6 +9,7 @@ class Markers extends Component {
         this.onScriptLoad = this.onScriptLoad.bind(this);
         this.handleMarkers = this.handleMarkers.bind(this);
         this.handleInfowindow = this.handleInfowindow.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.filterMarkers = this.filterMarkers.bind(this);
         this.loadMap = this.loadMap.bind(this);
     }
@@ -19,14 +20,16 @@ class Markers extends Component {
         return map;
     }
     onScriptLoad() {
+        const self = this;
         const map = this.loadMap();
         const infowindow = gmapsApi.createInfoWindow();
         this.handleInfowindow(infowindow);
         const markers = gmapsApi.createMarkers(map, infowindow, this.props.places);
         markers.forEach(marker => {
             marker.addListener('click', function() {
-                gmapsApi.animateMarker(this);
-                gmapsApi.populateInfoWindow(map, infowindow, this);
+                self.handleClick(map, infowindow, marker);
+                //gmapsApi.animateMarker(this);
+                //gmapsApi.populateInfoWindow(map, infowindow, this);
             });
         });
         this.handleMarkers(markers);
@@ -40,6 +43,11 @@ class Markers extends Component {
     handleMarkers(markers) {
         this.props.onHandleMarkers(markers);
     }
+
+    handleClick(map, infowindow, marker) {
+        this.props.onShowInfoWindow(map, infowindow, marker);
+    }
+
 
     filterMarkers(markers, filter) {
         this.props.onFilterMarkers(markers, filter);

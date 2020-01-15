@@ -34,6 +34,7 @@ class Map extends Component {
               filteredMarkers={this.props.filteredMarkers}
               onFilterMarkers={this.props.onFilterMarkers}
               onHandleMarkers={this.props.onHandleMarkers}
+              onShowInfoWindow={this.props.onShowInfoWindow}
               options={this.props.mapOptions}/>
         );
     }

@@ -5,6 +5,8 @@ import Map from './Map';
 import PlacesList from './PlacesList';
 import places from '../models/data';
 import gmapsApi from '../apis/google-maps/api';
+import WikipediaLinkList from '../components/WikipediaLinkList';
+
 
 class Main extends Component {
     constructor(props) {
@@ -14,6 +16,7 @@ class Main extends Component {
             filteredMarkers: [],
             filteredPlaces: [],
             markers: [],
+            clickedMarker: null,
             infowindow: null,
             map: null
         };
@@ -44,7 +47,8 @@ class Main extends Component {
         this.setState({ map });
     }
 
-    handleShowInfoWindow(map, infowindow, marker) {
+    async handleShowInfoWindow(map, infowindow, marker) {
+        await this.setState({ clickedMarker: marker });
         gmapsApi.showInfoWindow(map, infowindow, marker);
     }
     
@@ -104,11 +108,14 @@ class Main extends Component {
                         markers={this.state.markers}
                         filter={this.state.filter}
                         filteredMarkers={this.state.filteredMarkers}
+                        onShowInfoWindow={this.handleShowInfoWindow}
                         onHandleMarkers={this.handleMarkers}
                         onFilterMarkers={this.handleFilterMarkers} />
                     </div>
                   </div>
                 </div>
+                <WikipediaLinkList
+                  marker={this.state.clickedMarker} />
               </main>
               <Footer />
             </div>
