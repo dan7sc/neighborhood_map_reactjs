@@ -3,6 +3,7 @@
 # emacs
 .dir-locals.el
 *~
+.projectile
 
 # dependencies
 /node_modules
