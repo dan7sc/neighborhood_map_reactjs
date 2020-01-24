@@ -28,8 +28,6 @@ class Markers extends Component {
         markers.forEach(marker => {
             marker.addListener('click', function() {
                 self.handleClick(map, infowindow, marker);
-                //gmapsApi.animateMarker(this);
-                //gmapsApi.populateInfoWindow(map, infowindow, this);
             });
         });
         this.handleMarkers(markers);
@@ -54,14 +52,13 @@ class Markers extends Component {
     }
 
     componentDidMount() {
-        const key = 'AIzaSyBAjpyia7TRlb8gj-lLOz99Nw6SNxzXv-E';
         if (!window.google) {
-            const mapScriptTag = createMapScriptTag(key);
+            const mapScriptTag = createMapScriptTag(process.env.REACT_APP_KEY);
             mapScriptTag.addEventListener('load', () => {
-                this.onScriptLoad()
+                this.onScriptLoad();
             });
         } else {
-            this.onScriptLoad()
+            this.onScriptLoad();
         }
     }
 
@@ -72,7 +69,7 @@ class Markers extends Component {
             this.filterMarkers(markers, filter);
         }
     }
-    
+
     render() {
         return (
             <div id={this.props.id} />

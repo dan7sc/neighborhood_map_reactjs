@@ -6,6 +6,7 @@ import PlacesList from './PlacesList';
 import places from '../models/data';
 import gmapsApi from '../apis/google-maps/api';
 import WikipediaLinkList from '../components/WikipediaLinkList';
+import FoursquareList from '../components/FoursquareList';
 
 
 class Main extends Component {
@@ -17,6 +18,7 @@ class Main extends Component {
             filteredPlaces: [],
             markers: [],
             clickedMarker: null,
+            isClicked: false,
             infowindow: null,
             map: null
         };
@@ -27,6 +29,7 @@ class Main extends Component {
         this.handleShowInfoWindow = this.handleShowInfoWindow.bind(this);
         this.handleFilterMarkers = this.handleFilterMarkers.bind(this);
         this.handleFilterPlaces = this.handleFilterPlaces.bind(this);
+        this.toggleIsClicked = this.toggleIsClicked.bind(this);
     }
 
     handleInput(e) {
@@ -47,11 +50,16 @@ class Main extends Component {
         this.setState({ map });
     }
 
-    async handleShowInfoWindow(map, infowindow, marker) {
-        await this.setState({ clickedMarker: marker });
+    handleShowInfoWindow(map, infowindow, marker) {
+        this.setState({ clickedMarker: marker });
+        this.setState({ isClicked: true });
         gmapsApi.showInfoWindow(map, infowindow, marker);
     }
-    
+
+    toggleIsClicked(isClicked) {
+        this.setState({ isClicked: !isClicked });
+    }
+
     handleFilterMarkers(markers, filter) {
         const filteredMarkers = gmapsApi.filterMarkers(markers, filter);
         this.setState({ filteredMarkers });
@@ -114,8 +122,20 @@ class Main extends Component {
                     </div>
                   </div>
                 </div>
-                <WikipediaLinkList
-                  marker={this.state.clickedMarker} />
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <FoursquareList
+                        isClicked={this.state.isClicked}
+                        onToggleIsClicked={this.toggleIsClicked}
+                        marker={this.state.clickedMarker} />
+                    </div>
+                    <div className="col-md-6">
+                      <WikipediaLinkList
+                        marker={this.state.clickedMarker} />
+                    </div>
+                  </div>
+                </div>
               </main>
               <Footer />
             </div>
