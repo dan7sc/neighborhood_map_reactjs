@@ -37,13 +37,13 @@ class FoursquareList extends Component {
                     list.push(<img key={photoUrl} src={photoUrl} alt="{marker.title}" />);
                     this.setState({ listView: list });
                 }).catch(() => {
-                    const msg = <li>Four Square Photo Could Not Be Loaded</li>;
+                    const msg = <li key='dataError'>Four Square Photo Could Not Be Loaded</li>;
                     // this.setState({ listView: msg });
                     list.push(msg);
                     this.setState({ listView: list });
                 });
             }).catch(() => {
-                const msg = <li>Four Square Data Could Not Be Loaded</li>;
+                const msg = <li key='photoError'>Four Square Data Could Not Be Loaded</li>;
                 this.setState({ listView: msg });
             });
             this.props.onToggleIsClicked(this.props.isClicked);

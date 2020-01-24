@@ -7,6 +7,7 @@ import places from '../models/data';
 import gmapsApi from '../apis/google-maps/api';
 import WikipediaLinkList from '../components/WikipediaLinkList';
 import FoursquareList from '../components/FoursquareList';
+import FlickrPhoto from '../components/FlickrPhoto';
 
 
 class Main extends Component {
@@ -124,13 +125,19 @@ class Main extends Component {
                 </div>
                 <div className="container">
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <FoursquareList
                         isClicked={this.state.isClicked}
                         onToggleIsClicked={this.toggleIsClicked}
                         marker={this.state.clickedMarker} />
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
+                      <FlickrPhoto
+                        isClicked={this.state.isClicked}
+                        onToggleIsClicked={this.toggleIsClicked}
+                        marker={this.state.clickedMarker} />
+                    </div>
+                    <div className="col-md-4">
                       <WikipediaLinkList
                         marker={this.state.clickedMarker} />
                     </div>
