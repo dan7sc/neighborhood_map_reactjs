@@ -8,9 +8,9 @@ api.getLocation = function getLocation(marker) {
           `client_secret=${process.env.REACT_APP_CLIENT_SECRET}&v=20180323&` +
           `ll=${marker.position.lat()},${marker.position.lng()}&limit=1`;
 
-    const resolve = async () => $.getJSON(
+    const resolve = $.getJSON(
         url,
-        await function(data) {
+        function(data) {
             // Get the response
             const response = data.response.venues[0];
             return response;
@@ -25,9 +25,9 @@ api.getPhotoUrl = function getPhotoUrl(marker, id) {
           `client_secret=${process.env.REACT_APP_CLIENT_SECRET}&v=20180323&` +
           `ll=${marker.position.lat()},${marker.position.lng()}&limit=1`;
 
-    const resolve = async () => $.getJSON(
+    const resolve = $.getJSON(
         foursquarePhotoUrl,
-        await function(data) {
+        function(data) {
             // Get response
             const response = data.response.photos.items[0];
             // Define photo path

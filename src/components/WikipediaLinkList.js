@@ -1,67 +1,42 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
+import wikiApi from '../apis/wikipedia/api';
 
 
 class WikipediaLinkList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            wikipediaLinkList: [],
-            failWikipediaConnection: false
+            view: [],
         };
-        this.ajaxRequest = this.ajaxRequest.bind(this);
     }
 
-    ajaxRequest(url) {
-        const self = this;
-        const wikiRequestTimeout = setTimeout(function() {
-            self.setState({ failWikipediaConnection: true});
-        }, 5000);
-        
-        const resolve = async () => $.ajax({
-            url: url,
-            dataType: "jsonp",
-            jsonp: "callback",
-            success: await function( response ) {
-                clearTimeout(wikiRequestTimeout);
-            }
-        });
-        return resolve;
+    componentDidUpdate() {
+        const list = [];
+        const marker = this.props.marker;
+        const url = 'http://en.wikipedia.org/wiki/';
+
+        if (marker != null && this.props.isClicked === true) {
+            const request = wikiApi.getData(marker);
+            request.then((response) => {
+                response[1].forEach(item => {
+                    list.push(<li key={item}><a href={url+item}>{item}</a></li>);
+                });
+                this.setState({ view: list });
+            }).catch(() => {
+                const errorMessage = <h5 key='error'>Failed to get wikipedia resources</h5>;
+                list.push(errorMessage);
+                this.setState({ view: list });
+            });
+        }
     }
 
     render() {
-        const list = [];
-        let listToShow = [];
-        const errorMessage = <h5>{'---> Failed to get wikipedia resources <---'}</h5>;
-        const marker = this.props.marker;
-        let previousMarker = null;
-        const url = 'http://en.wikipedia.org/wiki/';
-
-        if (marker != null || marker !== previousMarker) {
-            previousMarker = marker;
-            const title = marker.title.toString();
-            const apiUrl = `http://en.wikipedia.org/w/api.php?action=opensearch&search=${title}&format=json`;
-            const request = this.ajaxRequest(apiUrl);
-            request().then(response => {
-                if (this.state.failWikipediaConnection === true) this.setState({ failWikipediaConnection: false});
-                response[1].forEach(item => {
-                   list.push(item);
-                });
-                this.setState({ wikipediaLinkList: list });
-            }).catch((e) => {
-                if (this.state.failWikipediaConnection === false) this.setState({ failWikipediaConnection: true });
-                console.log('Error:', e.status);
-            });
-            listToShow = this.state.wikipediaLinkList.map(item => {
-                return <li key={item}><a href={url+item}>{item}</a></li>;
-            });
-        }
-
+        const view = this.state.view;
         return (
             <div>
               <h3>Relevant Wikipedia Links</h3>
               <ul>
-                { this.state.failWikipediaConnection ? errorMessage : listToShow }
+                { view }
               </ul>
             </div>
         );

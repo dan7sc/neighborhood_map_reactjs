@@ -139,6 +139,8 @@ class Main extends Component {
                     </div>
                     <div className="col-md-4">
                       <WikipediaLinkList
+                        isClicked={this.state.isClicked}
+                        onToggleIsClicked={this.toggleIsClicked}
                         marker={this.state.clickedMarker} />
                     </div>
                   </div>

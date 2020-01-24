@@ -16,7 +16,7 @@ class FlickrPhoto extends Component {
         let photoUrl = '';
         if (marker != null && this.props.isClicked === true) {
             const request = flickrApi.getPhoto(marker);
-            request().then(data => {
+            request.then(data => {
                 // Choose random photo index
                 const index = Math.round( (Math.random() * 100) % 10 );
                 // Get response

@@ -15,7 +15,7 @@ class FoursquareList extends Component {
         const list = [];
         if (marker != null && this.props.isClicked === true) {
             const request = fsapi.getLocation(marker);
-            request().then(data => {
+            request.then(data => {
                 const response = data.response.venues[0];
                 // Get information about the marker
                 const id = response.id;
@@ -29,7 +29,7 @@ class FoursquareList extends Component {
                 return id;
             }).then(id => {
                 const request = fsapi.getPhotoUrl(marker, id);
-                request().then(data => {
+                request.then(data => {
                     // Get the photo url;
                     const response = data.response.photos.items[0];
                     const photoUrl = response.prefix + '200x200' + response.suffix;

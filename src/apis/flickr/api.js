@@ -14,11 +14,11 @@ api.getPhoto = function getPhoto(marker) {
           `lon=${marker.position.lng()}&` +
           `radius=.1&radius_units=mi`;
 
-    const resolve = async () => $.ajax({
+    const resolve = $.ajax({
         url: url,
         dataType: "jsonp",
         jsonp: "jsoncallback"
-    }).done(await function(response) {
+    }).done(function(response) {
         return response;
     });
     return resolve;
