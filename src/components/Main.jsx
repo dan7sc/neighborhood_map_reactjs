@@ -56,6 +56,9 @@ class Main extends Component {
 
     async handleShowInfoWindow(map, infowindow, marker) {
         const data = await utils.requestFoursquareData(marker);
+        // const data2 = await utils.requestFlickrData(marker);
+        // console.log(data, data2);
+        // data.push(data2);
         this.setState({ clickedMarker: marker });
         this.setState({ isClicked: true });
         this.setState({ data });
