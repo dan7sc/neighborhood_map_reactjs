@@ -82,44 +82,45 @@ api.createInfoWindow = function() {
 }
 
 // This function populates the infowindow when the marker is clicked
-api.populateInfoWindow = function(map, infowindow, marker) {
-  // Check to make sure the infowindow is not already opened on this marker
-  if (infowindow.marker !== marker) {
-    infowindow.marker = marker;
-    infowindow.setContent('<div>' + marker.title + '</div>');
-    infowindow.open(map, marker);
-    // Make sure the marker property is cleared if the infowindow is closed
-    infowindow.addListener('closeclick', function() {
-      infowindow.marker = null;
-    });
-  }
+api.populateInfoWindow = function(map, infowindow, marker, data) {
+    // Check to make sure the infowindow is not already opened on this marker
+    if (infowindow.marker !== marker) {
+        infowindow.marker = marker;
+        infowindow.setContent(`<h6>${marker.title}</h6>${data[0]}${data[1]}${data[2]}${data[3]}` +
+                              `<div><small>Source: FourSquare, Flickr</small></div>`);
+        infowindow.open(map, marker);
+        // Make sure the marker property is cleared if the infowindow is closed
+        infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+        });
+    }
 }
 
 // This function shows the infowindow through the list
-api.showInfoWindow = function(map, infowindow, marker) {
+api.showInfoWindow = function(map, infowindow, marker, data) {
     api.animateMarker(marker);
-    api.populateInfoWindow(map, infowindow, marker);
- }
+    api.populateInfoWindow(map, infowindow, marker, data);
+}
 
 // This function closes the infowindow
 api.closeInfoWindow = function(infowindow) {
-  if(infowindow) {
-    infowindow.close();
-  }
+    if(infowindow) {
+        infowindow.close();
+    }
 }
 
 // This function animates the marker
 api.animateMarker = function(marker) {
-  if (marker.getAnimation() != null) {
-    marker.setAnimation(null);
-  }
-  else {
-    marker.setAnimation(window.google.maps.Animation.BOUNCE);
-    // Marker bounces during two milliseconds
-    setTimeout(() => {
-      marker.setAnimation(null);
-    }, 2000);
-  }
+    if (marker.getAnimation() != null) {
+        marker.setAnimation(null);
+    }
+    else {
+        marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        // Marker bounces during two milliseconds
+        setTimeout(() => {
+            marker.setAnimation(null);
+        }, 2000);
+    }
 }
 
 export default api;

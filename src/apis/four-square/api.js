@@ -3,7 +3,7 @@ import $ from 'jquery';
 const api = {};
 
 api.getLocation = function getLocation(marker) {
-    const url = `https:api.foursquare.com/v2/venues/search?` +
+    const url = `https://api.foursquare.com/v2/venues/search?` +
           `client_id=${process.env.REACT_APP_CLIENT_ID}&` +
           `client_secret=${process.env.REACT_APP_CLIENT_SECRET}&v=20180323&` +
           `ll=${marker.position.lat()},${marker.position.lng()}&limit=1`;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import gmapsApi from '../apis/google-maps/api';
-import { createMapScriptTag } from '../utils/utils';
+import utils from '../utils/utils';
+
 
 
 class Markers extends Component {
@@ -53,7 +54,7 @@ class Markers extends Component {
 
     componentDidMount() {
         if (!window.google) {
-            const mapScriptTag = createMapScriptTag(process.env.REACT_APP_KEY);
+            const mapScriptTag = utils.createMapScriptTag(process.env.REACT_APP_KEY);
             mapScriptTag.addEventListener('load', () => {
                 this.onScriptLoad();
             });

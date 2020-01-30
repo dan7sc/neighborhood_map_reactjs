@@ -8,6 +8,7 @@ import gmapsApi from '../apis/google-maps/api';
 import WikipediaLinkList from '../components/WikipediaLinkList';
 import FoursquareList from '../components/FoursquareList';
 import FlickrPhoto from '../components/FlickrPhoto';
+import utils from '../utils/utils';
 
 
 class Main extends Component {
@@ -21,7 +22,8 @@ class Main extends Component {
             clickedMarker: null,
             isClicked: false,
             infowindow: null,
-            map: null
+            map: null,
+            data: []
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleMarkers = this.handleMarkers.bind(this);
@@ -30,6 +32,7 @@ class Main extends Component {
         this.handleShowInfoWindow = this.handleShowInfoWindow.bind(this);
         this.handleFilterMarkers = this.handleFilterMarkers.bind(this);
         this.handleFilterPlaces = this.handleFilterPlaces.bind(this);
+        this.handleRequestData = this.handleRequestData.bind(this);
         this.toggleIsClicked = this.toggleIsClicked.bind(this);
     }
 
@@ -51,10 +54,16 @@ class Main extends Component {
         this.setState({ map });
     }
 
-    handleShowInfoWindow(map, infowindow, marker) {
+    async handleShowInfoWindow(map, infowindow, marker) {
+        const data = await utils.requestFoursquareData(marker);
         this.setState({ clickedMarker: marker });
         this.setState({ isClicked: true });
-        gmapsApi.showInfoWindow(map, infowindow, marker);
+        this.setState({ data });
+        gmapsApi.showInfoWindow(map, infowindow, marker, this.state.data);
+    }
+
+    handleRequestData(data) {
+        this.setState({ data: data });
     }
 
     toggleIsClicked(isClicked) {
@@ -129,6 +138,8 @@ class Main extends Component {
                       <FoursquareList
                         isClicked={this.state.isClicked}
                         onToggleIsClicked={this.toggleIsClicked}
+                        data={this.state.data}
+                        onHandleRequestData={this.handleRequestData}
                         marker={this.state.clickedMarker} />
                     </div>
                     <div className="col-md-4">
