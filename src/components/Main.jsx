@@ -5,9 +5,6 @@ import Map from './Map';
 import PlacesList from './PlacesList';
 import places from '../models/data';
 import gmapsApi from '../apis/google-maps/api';
-import WikipediaLinkList from '../components/WikipediaLinkList';
-import FoursquareList from '../components/FoursquareList';
-import FlickrPhoto from '../components/FlickrPhoto';
 import utils from '../utils/utils';
 
 
@@ -100,10 +97,8 @@ class Main extends Component {
               <Header />
               <main>
                 <div className="container-fluid">
-                  <div className="row">
+                  <div className="row no-gutters">
                     <div className="col-md-3">
-                      <div>
-                        <input onChange={this.handleInput} type="text" placeholder="Search" size="30" />
                         <PlacesList
                           places={places}
                           filter={this.state.filter}
@@ -113,9 +108,9 @@ class Main extends Component {
                           markers={this.state.markers}
                           onShowInfoWindow={this.handleShowInfoWindow}
                           onFilterMarkers={this.handleFilterMarkers}
+                          onHandleInput={this.handleInput}
                           filteredPlaces={this.state.filteredPlaces}
                           onFilterPlaces={this.handleFilterPlaces} />
-                      </div>
                     </div>
                     <div className="col-md-9">
                       <Map
@@ -132,30 +127,6 @@ class Main extends Component {
                         onShowInfoWindow={this.handleShowInfoWindow}
                         onHandleMarkers={this.handleMarkers}
                         onFilterMarkers={this.handleFilterMarkers} />
-                    </div>
-                  </div>
-                </div>
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-4">
-                      <FoursquareList
-                        isClicked={this.state.isClicked}
-                        onToggleIsClicked={this.toggleIsClicked}
-                        data={this.state.data}
-                        onHandleRequestData={this.handleRequestData}
-                        marker={this.state.clickedMarker} />
-                    </div>
-                    <div className="col-md-4">
-                      <FlickrPhoto
-                        isClicked={this.state.isClicked}
-                        onToggleIsClicked={this.toggleIsClicked}
-                        marker={this.state.clickedMarker} />
-                    </div>
-                    <div className="col-md-4">
-                      <WikipediaLinkList
-                        isClicked={this.state.isClicked}
-                        onToggleIsClicked={this.toggleIsClicked}
-                        marker={this.state.clickedMarker} />
                     </div>
                   </div>
                 </div>

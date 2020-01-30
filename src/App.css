@@ -1,42 +1,99 @@
-.App {
-  text-align: center;
+/* .App { */
+/*   text-align: center; */
+/* } */
+
+/* .App-logo { */
+/*   height: 40vmin; */
+/*   pointer-events: none; */
+/* } */
+
+/* @media (prefers-reduced-motion: no-preference) { */
+/*   .App-logo { */
+/*     animation: App-logo-spin infinite 20s linear; */
+/*   } */
+/* } */
+
+/* .App-header { */
+/*   background-color: #282c34; */
+/*   min-height: 100vh; */
+/*   display: flex; */
+/*   flex-direction: column; */
+/*   align-items: center; */
+/*   justify-content: center; */
+/*   font-size: calc(10px + 2vmin); */
+/*   color: white; */
+/* } */
+
+/* .App-link { */
+/*   color: #61dafb; */
+/* } */
+
+/* @keyframes App-logo-spin { */
+/*   from { */
+/*     transform: rotate(0deg); */
+/*   } */
+/*   to { */
+/*     transform: rotate(360deg); */
+/*   } */
+/* } */
+
+/* SOFT RESET */
+html, body, ul, li, div, p, h1, h2, h3, h4, h5, h6, input {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+body {
+    font-family: Arial, sans-serif;
+    background: #dddddd;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container-fluid {
+    padding: 0;
+    margin: 0;
 }
 
 #map {
     height: 32em;
+}
+
+.list {
+    position: relative;
+    max-height: 30em;
+    overflow-y: scroll;
+    background: #ffffff;
+}
+
+li {
+    padding: 10px;
+    overflow: auto;
+}
+
+li:hover {
+    background: #cccccc;
+    cursor: pointer;
+}
+
+.input-filter {
+    padding: 0 30px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #dddddd;
+    border-radius: 1px;
+    font-size: 1.2rem;
+}
+
+.input-filter-icon {
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    z-index: 1;
+}
+
+@media (max-width: 767.98px) {
+    .list {
+        max-height: 8em;
+    }
 }

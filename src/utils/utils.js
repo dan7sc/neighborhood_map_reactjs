@@ -28,9 +28,9 @@ utils.requestFoursquareData = async function(marker) {
         const address = response.location.formattedAddress[0];
         const city = response.location.formattedAddress[1];
         const country = response.location.formattedAddress[2];
-        list.push(`<li key='address'>${address}</li>`);
-        list.push(`<li key='city'>${city}</li>`);
-        list.push(`<li key='country'>${country}</li>`);
+        list.push(`<p key='address'>${address}</p>`);
+        list.push(`<p key='city'>${city}</p>`);
+        list.push(`<p key='country'>${country}</p>`);
         return id;
     }).then(async id => {
         const request = fsapi.getPhotoUrl(marker, id);
@@ -41,13 +41,13 @@ utils.requestFoursquareData = async function(marker) {
             // Set information in the page
             list.push(`<img key='photo' src=${photoUrl} alt="${marker.title}" height="170" width="200" />`);
         }).catch(async () => {
-            // const msg = `<li key='dataError'>Four Square Photo Could Not Be Loaded</li>`;
+            // const msg = `<a key='dataError'>Four Square Photo Could Not Be Loaded</p>`;
             // list.push(msg);
             const fdata = await requestFlickrData(marker);
             list.push(fdata);
         });
     }).catch(() => {
-        const msg = `<li key='photoError'>Four Square Data Could Not Be Loaded</li>`;
+        const msg = `<p key='photoError'>Four Square Data Could Not Be Loaded</p>`;
         list.push(msg);
     });
     return list;
@@ -73,7 +73,7 @@ async function requestFlickrData(marker) {
         const photoView = `<img src=${photoUrl} alt="${title}" height="170" width="200" />`;
         list.push(photoView);
     }).catch(() => {
-        const msg = `<li key='flickrError'>Flickr Photo Could Not Be Loaded</li>`;
+        const msg = `<p key='flickrError'>Flickr Photo Could Not Be Loaded</p>`;
         list.push(msg);
     });
     return list;

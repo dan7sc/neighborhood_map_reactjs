@@ -4,7 +4,7 @@ class Header extends Component {
 
     render() {
         const title = 'Neighborhood Map';
-        
+
         return (
             <React.Fragment>
               <header>
