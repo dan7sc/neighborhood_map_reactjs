@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import Map from './Map';
-import PlacesList from './PlacesList';
+import ScriptLoader from './ScriptLoader';
+import Map from './Map2';
+import Markers from './Markers2';
+import PlacesList from './PlacesList2';
 import places from '../models/data';
 import gmapsApi from '../apis/google-maps/api';
 import utils from '../utils/utils';
 
+const APPKEY = process.env.REACT_APP_KEY;
+const ID = 'map';
+// const mapOptions = {
+//             center: { lat: 40.7413549, lng: -73.9980244 },
+//             zoom: 13
+//         };
 
 class Main extends Component {
     constructor(props) {
@@ -20,6 +28,7 @@ class Main extends Component {
             isClicked: false,
             infowindow: null,
             map: null,
+            google: null,
             data: []
         };
         this.handleInput = this.handleInput.bind(this);
@@ -87,11 +96,6 @@ class Main extends Component {
     }
 
     render() {
-        const mapOptions = {
-            center: { lat: 40.7413549, lng: -73.9980244 },
-            zoom: 13
-        };
-
         return (
             <div>
               <Header />
@@ -99,34 +103,39 @@ class Main extends Component {
                 <div className="container-fluid">
                   <div className="row no-gutters">
                     <div className="col-md-3">
-                        <PlacesList
-                          places={places}
-                          filter={this.state.filter}
-                          filteredMarkers={this.state.filteredMarkers}
-                          map={this.state.map}
-                          infowindow={this.state.infowindow}
-                          markers={this.state.markers}
-                          onShowInfoWindow={this.handleShowInfoWindow}
-                          onFilterMarkers={this.handleFilterMarkers}
-                          onHandleInput={this.handleInput}
-                          filteredPlaces={this.state.filteredPlaces}
-                          onFilterPlaces={this.handleFilterPlaces} />
+                      <PlacesList />
+                        {/* <PlacesList */}
+                        {/*   places={places} */}
+                        {/*   filter={this.state.filter} */}
+                        {/*   filteredMarkers={this.state.filteredMarkers} */}
+                        {/*   map={this.state.map} */}
+                        {/*   infowindow={this.state.infowindow} */}
+                        {/*   markers={this.state.markers} */}
+                        {/*   onShowInfoWindow={this.handleShowInfoWindow} */}
+                        {/*   onFilterMarkers={this.handleFilterMarkers} */}
+                        {/*   onHandleInput={this.handleInput} */}
+                        {/*   filteredPlaces={this.state.filteredPlaces} */}
+                        {/*   onFilterPlaces={this.handleFilterPlaces} /> */}
                     </div>
                     <div className="col-md-9">
-                      <Map
-                        id='map'
-                        mapOptions={mapOptions}
-                        places={places}
-                        infowindow={this.state.infowindow}
-                        onHandleInfowindow={this.handleInfowindow}
-                        map={this.state.map}
-                        onHandleMap={this.handleMap}
-                        markers={this.state.markers}
-                        filter={this.state.filter}
-                        filteredMarkers={this.state.filteredMarkers}
-                        onShowInfoWindow={this.handleShowInfoWindow}
-                        onHandleMarkers={this.handleMarkers}
-                        onFilterMarkers={this.handleFilterMarkers} />
+                      <ScriptLoader
+                        id={ID}
+                        appKey={APPKEY} >
+                      </ScriptLoader>
+                      {/* <Map */}
+                      {/*   id='map' */}
+                      {/*   mapOptions={mapOptions} */}
+                      {/*   places={places} */}
+                      {/*   infowindow={this.state.infowindow} */}
+                      {/*   onHandleInfowindow={this.handleInfowindow} */}
+                      {/*   map={this.state.map} */}
+                      {/*   onHandleMap={this.handleMap} */}
+                      {/*   markers={this.state.markers} */}
+                      {/*   filter={this.state.filter} */}
+                      {/*   filteredMarkers={this.state.filteredMarkers} */}
+                      {/*   onShowInfoWindow={this.handleShowInfoWindow} */}
+                      {/*   onHandleMarkers={this.handleMarkers} */}
+                      {/*   onFilterMarkers={this.handleFilterMarkers} /> */}
                     </div>
                   </div>
                 </div>
