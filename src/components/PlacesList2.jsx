@@ -8,15 +8,12 @@ class PlacesList2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filteredList: PLACES,
-            filter: ''
+            filteredList: PLACES
         };
     }
 
     handleInput = (e) => {
-        this.setState({
-            filter: e.target.value
-        });
+        this.props.onHandleInput(e);
     }
 
     isFiltered = (filter, element) => {
@@ -31,21 +28,22 @@ class PlacesList2 extends Component {
     }
 
     componentDidMount = () => {
-        const filter = this.state.filter;
+        const filter = this.props.filter;
         const filtered = this.handleFilterList(PLACES, filter);
         this.setState({ filteredList: filtered });
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
-        const filter = this.state.filter;
-        if (filter !== '' && filter !== prevState.filter) {
+    componentDidUpdate = (prevProps) => {
+        const filter = this.props.filter;
+        if (filter !== '' && filter !== prevProps.filter) {
             const filtered = this.handleFilterList(PLACES, filter);
             this.setState({ filteredList: filtered });
         }
     }
 
     render() {
-        const { filteredList, filter } = { ...this.state };
+        const filteredList = this.state.filteredList;
+        const filter = this.props.filter;
         const filteredListView = filteredList.map(item => {
             return <li key={item.title}>{item.title}</li>;
         });
