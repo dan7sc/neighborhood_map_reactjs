@@ -49,14 +49,15 @@ class ScriptLoader extends Component {
 
     render() {
         const { googleApi, isError } = this.state;
-        const id = this.props.id;
+        const { id, filter } = { ...this.props };
         const errorMessage = 'Fail to load script';
         let mapView;
         if (googleApi !== null) {
             mapView = <Map
                         id={id}
                         mapOptions={mapOptions}
-                        googleApi={googleApi} />;
+                        googleApi={googleApi}
+                        filter={filter}/>;
         } else {
             if (!isError) {
                 mapView = <h3>Loading map ...</h3>;

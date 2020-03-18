@@ -3,7 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import ScriptLoader from './ScriptLoader';
 import PlacesList from './PlacesList2';
-import places from '../models/data';
+// import places from '../models/data';
 // import Map from './Map2';
 // import Markers from './Markers2';
 // import gmapsApi from '../apis/google-maps/api';
@@ -17,16 +17,16 @@ class Main extends Component {
         super(props);
         this.state = {
             filter: '',
-            filteredMarkers: [],
-            filteredPlaces: [],
-            markers: [],
-            clickedMarker: null,
-            isClicked: false,
-            infowindow: null,
-            map: null,
-            google: null,
-            places: places,
-            data: []
+            // filteredMarkers: [],
+            // filteredPlaces: [],
+            // markers: [],
+            // clickedMarker: null,
+            // isClicked: false,
+            // infowindow: null,
+            // map: null,
+            // google: null,
+            // places: places,
+            // data: []
         };
         //this.handleInput = this.handleInput.bind(this);
     }
@@ -53,7 +53,8 @@ class Main extends Component {
                     <div className="col-md-9">
                       <ScriptLoader
                         id={ID}
-                        appKey={APPKEY} >
+                        appKey={APPKEY}
+                        filter={filter} >
                       </ScriptLoader>
                     </div>
                   </div>

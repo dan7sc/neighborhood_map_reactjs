@@ -34,7 +34,7 @@ class Map2 extends Component {
     }
 
     render() {
-        const { id, googleApi } = { ...this.props };
+        const { id, googleApi, filter } = { ...this.props };
         const map = this.state.map;
         let mapView = <div></div>;
         if (googleApi !== null) {
@@ -45,7 +45,8 @@ class Map2 extends Component {
                               id={id}
                               places={places}
                               map={map}
-                              googleApi={googleApi} />
+                              googleApi={googleApi}
+                              filter={filter} />
                           </div>;
             }
         }

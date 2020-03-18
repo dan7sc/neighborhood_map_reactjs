@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 class Markers2 extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            markers: [],
+            filteredMarkers: []
+        };
     }
 
     createMarkers = (api, map, places) => {
@@ -39,11 +43,43 @@ class Markers2 extends Component {
         map.fitBounds(bounds);
     }
 
+    handleInput = (e) => {
+        this.props.onHandleInput(e);
+    }
+
+    isFiltered = (filter, element) => {
+        return element.toLowerCase().includes(filter.toLowerCase());
+    }
+
+    filterMarkers = (markers, filter) => {
+        const filteredMarkers = [];
+        for(let i = 0; i < markers.length; i++) {
+            if(this.isFiltered(filter, markers[i].title)) {
+                filteredMarkers.push(markers[i]);
+                markers[i].setVisible(true);
+            }
+            else {
+                markers[i].setVisible(false);
+            }
+        }
+        return filteredMarkers;
+    }
+
     componentDidMount = () => {
         const { googleApi, map, places } = { ...this.props };
         if (googleApi !== null && map !== null) {
             const markers = this.createMarkers(googleApi, map, places);
+            this.setState({ markers });
             this.showMarkers(googleApi, map, markers);
+        }
+    }
+
+    componentDidUpdate = (prevProps) => {
+        const markers = this.state.markers;
+        const filter = this.props.filter;
+        if (filter !== prevProps.filter) {
+            const filtered = this.filterMarkers(markers, filter);
+            this.setState({ filteredMarkers: filtered });
         }
     }
 
