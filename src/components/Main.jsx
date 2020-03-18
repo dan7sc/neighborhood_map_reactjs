@@ -29,6 +29,7 @@ class Main extends Component {
             infowindow: null,
             map: null,
             google: null,
+            places: places,
             data: []
         };
         this.handleInput = this.handleInput.bind(this);
