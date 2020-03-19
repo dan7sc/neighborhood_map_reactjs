@@ -16,6 +16,10 @@ class PlacesList2 extends Component {
         this.props.onHandleInput(e);
     }
 
+    handleClick = () => {
+        this.props.onHandleClick();
+    }
+
     isFiltered = (filter, element) => {
         return element.toLowerCase().includes(filter.toLowerCase());
     }
@@ -45,10 +49,10 @@ class PlacesList2 extends Component {
         const filteredList = this.state.filteredList;
         const filter = this.props.filter;
         const filteredListView = filteredList.map(item => {
-            return <li key={item.title}>{item.title}</li>;
+            return <li key={item.title} onClick={this.handleClick}>{item.title}</li>;
         });
         const listView = PLACES.map(item => {
-            return <li key={item.title}>{item.title}</li>;
+            return <li key={item.title} onClick={this.handleClick}>{item.title}</li>;
         });
         const msg = <li key='message'>No place was found</li>;
         return (

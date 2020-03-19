@@ -34,6 +34,18 @@ class Markers2 extends Component {
         return marker;
     }
 
+    animateMarker = (api, marker) => {
+        if (marker.getAnimation()) {
+            marker.setAnimation(null);
+        }
+        else {
+            marker.setAnimation(api.maps.Animation.BOUNCE);
+            setTimeout(() => {
+                marker.setAnimation(null);
+            }, 2000);
+        }
+    }
+
     showMarkers = (api, map, markers) => {
         const bounds = new api.maps.LatLngBounds();
         for (let i = 0; i < markers.length; i++) {
@@ -45,6 +57,10 @@ class Markers2 extends Component {
 
     handleInput = (e) => {
         this.props.onHandleInput(e);
+    }
+
+    handleClick = () => {
+        this.props.onHandleClick();
     }
 
     isFiltered = (filter, element) => {
@@ -69,6 +85,9 @@ class Markers2 extends Component {
         const { googleApi, map, places } = { ...this.props };
         if (googleApi !== null && map !== null) {
             const markers = this.createMarkers(googleApi, map, places);
+            markers.forEach(marker => {
+                marker.addListener('click', () => this.handleClick());
+            });
             this.setState({ markers });
             this.showMarkers(googleApi, map, markers);
         }

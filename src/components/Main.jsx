@@ -28,13 +28,16 @@ class Main extends Component {
             // places: places,
             // data: []
         };
-        //this.handleInput = this.handleInput.bind(this);
     }
 
     handleInput = (e) => {
         this.setState({
             filter: e.target.value
         });
+    }
+
+    handleClick = () => {
+        alert('clicked');
     }
 
     render() {
@@ -48,13 +51,15 @@ class Main extends Component {
                     <div className="col-md-3">
                       <PlacesList
                         filter={filter}
-                        onHandleInput={this.handleInput} />
+                        onHandleInput={this.handleInput}
+                        onHandleClick={this.handleClick} />
                     </div>
                     <div className="col-md-9">
                       <ScriptLoader
                         id={ID}
                         appKey={APPKEY}
-                        filter={filter} >
+                        filter={filter}
+                        onHandleClick={this.handleClick} >
                       </ScriptLoader>
                     </div>
                   </div>
