@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import InfoWindow from './InfoWindow';
 
 class Markers2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
             markers: [],
-            filteredMarkers: []
+            filteredMarkers: [],
+            clickedMarker: null,
         };
     }
 
@@ -37,8 +39,7 @@ class Markers2 extends Component {
     animateMarker = (api, marker) => {
         if (marker.getAnimation()) {
             marker.setAnimation(null);
-        }
-        else {
+        } else {
             marker.setAnimation(api.maps.Animation.BOUNCE);
             setTimeout(() => {
                 marker.setAnimation(null);
@@ -59,8 +60,12 @@ class Markers2 extends Component {
         this.props.onHandleInput(e);
     }
 
-    handleClick = () => {
-        this.props.onHandleClick();
+    handleClick = (clickedMarker) => {
+        this.setState({ clickedMarker });
+    }
+
+    handleIsClicked = (isClicked) => {
+        this.setState({ isClicked });
     }
 
     isFiltered = (filter, element) => {
@@ -73,8 +78,7 @@ class Markers2 extends Component {
             if(this.isFiltered(filter, markers[i].title)) {
                 filteredMarkers.push(markers[i]);
                 markers[i].setVisible(true);
-            }
-            else {
+            } else {
                 markers[i].setVisible(false);
             }
         }
@@ -86,23 +90,38 @@ class Markers2 extends Component {
         if (googleApi !== null && map !== null) {
             const markers = this.createMarkers(googleApi, map, places);
             markers.forEach(marker => {
-                marker.addListener('click', () => this.handleClick());
+                const clickedMarker = marker;
+                marker.addListener('click', () => {
+                    this.animateMarker(googleApi, clickedMarker);
+                    this.handleClick(clickedMarker);
+                });
             });
             this.setState({ markers });
             this.showMarkers(googleApi, map, markers);
         }
     }
 
-    componentDidUpdate = (prevProps) => {
-        const markers = this.state.markers;
+    componentDidUpdate = (prevProps, prevState) => {
+        const { markers, isClicked } = { ...this.state };
         const filter = this.props.filter;
         if (filter !== prevProps.filter) {
             const filtered = this.filterMarkers(markers, filter);
             this.setState({ filteredMarkers: filtered });
         }
+        if (isClicked && isClicked !== prevState.isClicked) {
+            this.setState({ isClicked: !isClicked });
+        }
     }
 
     render() {
+        const { map, googleApi } = { ...this.props };
+        const { clickedMarker } = { ...this.state };
+        if (clickedMarker) {
+            return <InfoWindow
+                     googleApi={googleApi}
+                     map={map}
+                     clickedMarker={clickedMarker} />;
+        }
         return <div></div>;
     }
 }
