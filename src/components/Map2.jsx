@@ -34,7 +34,7 @@ class Map2 extends Component {
     }
 
     render() {
-        const { id, googleApi, filter, onHandleClick } = { ...this.props };
+        const { id, googleApi, filter, clickedPlace } = { ...this.props };
         const map = this.state.map;
         let mapView = <div></div>;
         if (googleApi !== null) {
@@ -47,7 +47,7 @@ class Map2 extends Component {
                               map={map}
                               googleApi={googleApi}
                               filter={filter}
-                              onHandleClick={onHandleClick}/>
+                              clickedPlace={clickedPlace} />
                           </div>;
             }
         }

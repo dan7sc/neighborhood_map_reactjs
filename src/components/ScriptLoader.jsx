@@ -49,7 +49,7 @@ class ScriptLoader extends Component {
 
     render() {
         const { googleApi, isError } = this.state;
-        const { id, filter, onHandleClick } = { ...this.props };
+        const { id, filter, clickedPlace } = { ...this.props };
         const errorMessage = 'Fail to load script';
         let mapView;
         if (googleApi !== null) {
@@ -58,7 +58,7 @@ class ScriptLoader extends Component {
                         mapOptions={mapOptions}
                         googleApi={googleApi}
                         filter={filter}
-                        onHandleClick={onHandleClick}/>;
+                        clickedPlace={clickedPlace} />;
         } else {
             if (!isError) {
                 mapView = <h3>Loading map ...</h3>;

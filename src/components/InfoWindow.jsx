@@ -8,14 +8,9 @@ class InfoWindow extends Component {
         };
     }
 
-    // handleInfoWindow = (infowindow) => {
-    //     this.setState({ infowindow });
-    // }
-
     createInfoWindow = (api) => {
         const infowindow = new api.maps.InfoWindow();
         this.setState({ infowindow });
-        //return infowindow;
     }
 
     setContentToInfoWindow = (content) => {
@@ -33,10 +28,13 @@ class InfoWindow extends Component {
         this.addInfoWindowToMarker(map, marker);
     }
 
+    handleClick = () => {
+        this.props.onHandleClick();
+    }
+
     componentDidMount = () => {
         const googleApi = this.props.googleApi;
         this.createInfoWindow(googleApi);
-        //this.handleInfoWindow(infowindow);
     }
 
     componentDidUpdate = (prevProps) => {
