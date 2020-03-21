@@ -8,6 +8,7 @@ class Markers2 extends Component {
             markers: [],
             filteredMarkers: [],
             clickedMarker: null,
+            isToCloseInfoWindow: false
         };
     }
 
@@ -61,7 +62,12 @@ class Markers2 extends Component {
     }
 
     handleClick = (clickedMarker) => {
+        this.handleCloseInfoWindow(false);
         this.setState({ clickedMarker });
+    }
+
+    handleCloseInfoWindow = (isToCloseInfoWindow) => {
+        this.setState({ isToCloseInfoWindow });
     }
 
     isFiltered = (filter, element) => {
@@ -70,6 +76,7 @@ class Markers2 extends Component {
 
     filterMarkers = (markers, filter) => {
         const filteredMarkers = [];
+        this.handleCloseInfoWindow(true);
         for(let i = 0; i < markers.length; i++) {
             if(this.isFiltered(filter, markers[i].title)) {
                 filteredMarkers.push(markers[i]);
@@ -121,11 +128,12 @@ class Markers2 extends Component {
 
     render() {
         const { map, googleApi } = { ...this.props };
-        const clickedMarker = this.state.clickedMarker;
+        const { clickedMarker, isToCloseInfoWindow } = { ...this.state };
         if (clickedMarker) {
             return <InfoWindow
                      googleApi={googleApi}
                      map={map}
+                     isToCloseInfoWindow={isToCloseInfoWindow}
                      clickedMarker={clickedMarker} />;
         }
         return <div></div>;

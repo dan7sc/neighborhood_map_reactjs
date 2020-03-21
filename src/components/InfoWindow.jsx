@@ -38,10 +38,12 @@ class InfoWindow extends Component {
     }
 
     componentDidUpdate = (prevProps) => {
-        const { map, clickedMarker } = { ...this.props };
+        const infowindow = this.state.infowindow;
+        const { map, clickedMarker, isToCloseInfoWindow } = { ...this.props };
         if (prevProps.clickedMarker || clickedMarker !== prevProps.clickedMarker) {
             this.handleInfoWindow(map, clickedMarker);
         }
+        if (isToCloseInfoWindow) infowindow.close();
     }
 
     render() {
