@@ -57,16 +57,11 @@ class Markers2 extends Component {
         map.fitBounds(bounds);
     }
 
-    handleInput = (e) => {
-        this.props.onHandleInput(e);
-    }
-
     handleClick = (clickedMarker) => {
-        this.handleCloseInfoWindow(false);
         this.setState({ clickedMarker });
     }
 
-    handleCloseInfoWindow = (isToCloseInfoWindow) => {
+    handleIsToCloseInfoWindow = (isToCloseInfoWindow) => {
         this.setState({ isToCloseInfoWindow });
     }
 
@@ -76,7 +71,6 @@ class Markers2 extends Component {
 
     filterMarkers = (markers, filter) => {
         const filteredMarkers = [];
-        this.handleCloseInfoWindow(true);
         for(let i = 0; i < markers.length; i++) {
             if(this.isFiltered(filter, markers[i].title)) {
                 filteredMarkers.push(markers[i]);
@@ -104,6 +98,7 @@ class Markers2 extends Component {
                 marker.addListener('click', () => {
                     this.animateMarker(googleApi, clickedMarker);
                     this.handleClick(clickedMarker);
+                    this.handleIsToCloseInfoWindow(false);
                 });
             });
             this.setState({ markers });
@@ -115,6 +110,7 @@ class Markers2 extends Component {
         const markers = this.state.markers;
         const { filter, clickedPlace, googleApi } = { ...this.props };
         if (filter !== prevProps.filter) {
+            this.handleIsToCloseInfoWindow(true);
             const filtered = this.filterMarkers(markers, filter);
             this.setState({ filteredMarkers: filtered });
         }
@@ -123,6 +119,7 @@ class Markers2 extends Component {
             const markerToShowInfoWindow = this.getMarkerFromPlaces(markers, filter)[0];
             this.animateMarker(googleApi, markerToShowInfoWindow);
             this.handleClick(markerToShowInfoWindow);
+            this.handleIsToCloseInfoWindow(false);
         }
     }
 
@@ -134,6 +131,7 @@ class Markers2 extends Component {
                      googleApi={googleApi}
                      map={map}
                      isToCloseInfoWindow={isToCloseInfoWindow}
+                     onHandleIsToCloseInfoWindow={this.handleIsToCloseInfoWindow}
                      clickedMarker={clickedMarker} />;
         }
         return <div></div>;

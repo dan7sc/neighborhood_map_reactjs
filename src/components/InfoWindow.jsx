@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import utils from '../utils/utils';
 
 class InfoWindow extends Component {
     constructor(props) {
@@ -10,26 +11,41 @@ class InfoWindow extends Component {
 
     createInfoWindow = (api) => {
         const infowindow = new api.maps.InfoWindow();
+        infowindow.marker = null;
         this.setState({ infowindow });
     }
 
     setContentToInfoWindow = (content) => {
         const infowindow = this.state.infowindow;
-        infowindow.setContent(`<h6>${content.title}</h6>`);
+        const contentStr = `<h6>${content[4].title}</h6>` +
+              `${content[0]}${content[1]}${content[2]}${content[3]}` +
+              `<div><small>Source: FourSquare, Flickr</small></div>`;
+        infowindow.setContent(contentStr);
     }
 
     addInfoWindowToMarker = (map, marker) => {
         const infowindow = this.state.infowindow;
+        infowindow.marker = marker;
         infowindow.open(map, marker);
+        infowindow.addListener('closeclick', () => {
+            infowindow.marker = null;
+        });
     }
 
-    handleInfoWindow = (map, marker) => {
-        this.setContentToInfoWindow(marker);
+    handleInfoWindow = async (map, marker) => {
+        const data = await utils.requestFoursquareData(marker);
+        data.push(marker);
+        this.setContentToInfoWindow(data);
         this.addInfoWindowToMarker(map, marker);
     }
 
-    handleClick = () => {
-        this.props.onHandleClick();
+
+    handleCloseInfoWindow = (infowindow) => {
+        if (infowindow.marker) {
+            infowindow.marker = null;
+            infowindow.close();
+            this.props.onHandleIsToCloseInfoWindow(true);
+        }
     }
 
     componentDidMount = () => {
@@ -37,13 +53,14 @@ class InfoWindow extends Component {
         this.createInfoWindow(googleApi);
     }
 
-    componentDidUpdate = (prevProps) => {
+    componentDidUpdate = (prevProps, prevState) => {
         const infowindow = this.state.infowindow;
         const { map, clickedMarker, isToCloseInfoWindow } = { ...this.props };
-        if (prevProps.clickedMarker || clickedMarker !== prevProps.clickedMarker) {
+        if (isToCloseInfoWindow || (infowindow.marker && infowindow.marker !== prevState.infowindow.marker)) {
+            this.handleCloseInfoWindow(infowindow);
+        } else if (!infowindow.marker || clickedMarker !== prevProps.clickedMarker) {
             this.handleInfoWindow(map, clickedMarker);
         }
-        if (isToCloseInfoWindow) infowindow.close();
     }
 
     render() {
